@@ -1,6 +1,15 @@
 function Graph(id){
     this.object = document.getElementById(id);
     this.graph = this.object.getContext('2d');
+    this.core = new Core();
+
+    this.init = function () {
+        this.core.scanValues();
+        this.setSize(this.core.getWidth(0), this.core.getHeight(0));
+    };
+    this.print = function(){
+        this.line(this.core.getGraphCords(), 1, "red");
+    };
 
     this.setSize = function(width, height){
         this.object.width = width;
@@ -44,4 +53,5 @@ function Graph(id){
         this.graph.strokeStyle = color;
         this.graph.stroke();
     };
+    this.init();
 }
