@@ -4,11 +4,14 @@ function Graph(id){
     this.core = new Core();
 
     this.init = function () {
+
         this.core.scanValues();
-        this.setSize(this.core.getWidth(0), this.core.getHeight(0));
+        this.setSize(this.core.getWidth(),this.core.getHeight());
+
     };
     this.print = function(){
-        this.line(this.core.getGraphCords(), 1, "red");
+        this.setAxes(this.core.x1, this.core.x2, this.core.a, "#CC00FF");
+        this.line(this.core.getGraphCords(), 2, "white");
     };
 
     this.setSize = function(width, height){
@@ -25,23 +28,35 @@ function Graph(id){
     this.setAxes = function(start, end, a, color){
         var y = !!((start >= -60 && start <= 60) || (end >= -60 && end <= 60) || (start < 0 && end > 0));
 
-        var width = end - start + 20;
-        var height = a + Math.round(a/2);
 
+        var yAxe = this.core.getYAxe();
+        var xAxe = this.core.getXAxe();
+        var width = this.core.getWidth();
+        var height = this.core.getHeight();
+        var scale = this.core.scale;
 
-        console.log(y);
+        // Y
+        if(y){
+            this.line([
+                [yAxe, 0], [yAxe, height]
+            ], 1, color);
+            this.line([
+                    [yAxe - 1.5 * scale, 2 * scale], [yAxe, 0], [yAxe + 1.5 * scale, 2 * scale]
+                ], 1, "red"
+            );
+        }
+
+        // X
+        this.line([
+            [0, xAxe], [width, xAxe]
+        ], 1, color);
+
+        this.line([
+                [width - 2 * scale, xAxe - (1.5 * scale)], [width, xAxe], [width - 2 * scale, xAxe + (1.5 * scale)]
+            ], 1, "red"
+        );
     };
 
-    this.test = function(){
-        this.graph.beginPath();
-        this.graph.moveTo(0, 5);
-        this.graph.lineTo(90, 5);
-        this.graph.lineWidth = 10;
-
-        // set line color
-        this.graph.strokeStyle = '#ff0000';
-        this.graph.stroke();
-    };
     this.line = function(points, width, color){
         this.graph.beginPath();
         this.graph.moveTo(points[0][0], points[0][1]);

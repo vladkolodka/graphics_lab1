@@ -2,6 +2,8 @@ function Core(){
     this.x1 = undefined;
     this.x2 = undefined;
     this.a = undefined;
+    this.padding = 20;
+    this.scale = 3;
 
     this.scanValues = function(){
         this.x1 = -120;
@@ -13,28 +15,32 @@ function Core(){
     };
     this.getGraphCords = function () {
         var cords = [];
-        var offsetX = (this.x1 * -1);
+        var offsetX = ((this.x1 * -1) + this.padding) * this.scale;
+        for (var i = this.x1; i <= this.x2; i++)
+            cords.push([i * this.scale + offsetX, (-this.getY(i) + this.a) * this.scale + this.padding]);
 
-        for (var i = this.x1; i <= this.x2; i++){
-            var y = this.getY(i);
-            cords.push([i + offsetX, -y + this.a]);
-            console.log(y + ' : ' + -y + this.a);
-        }
-
+        console.log(cords);
         return cords;
     };
     this.getY = function(x){
-        return Number((Math.pow(x, 3) / (Math.pow(this.a, 2) + Math.pow(x, 2))).toFixed(1));
+        return Number((Math.pow(this.a, 3) / (Math.pow(this.a, 2) + Math.pow(x, 2))).toFixed(1));
     };
 
-    this.getWidth = function (idents) {
-        return this.x2 - this.x1 + idents;
+    this.getYAxe = function(){
+        return (Math.abs(this.x1) + this.padding) * this.scale;
     };
-    this.getHeight = function (idents) {
-        return this.a + Math.round(
-                Math.abs(
-                    Math.min(this.getY(this.x1), this.getY(this.x2))
-                )
-            ) + idents;
+    this.getXAxe = function(){
+        return (this.a + this.padding) * this.scale;
+    };
+
+    this.getWidth = function () {
+        return ((this.x2 - this.x1) + this.padding * 2) * this.scale ;
+    };
+    this.getHeight = function () {
+        return (this.a + Math.round(
+            Math.abs(
+                Math.min(this.getY(this.x1), this.getY(this.x2))
+            )
+        ) + this.padding * 2) * this.scale;
     };
 }
