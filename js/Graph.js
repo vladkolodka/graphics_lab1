@@ -10,8 +10,8 @@ function Graph(id){
 
     };
     this.print = function(){
-        this.setAxes(this.core.x1, this.core.x2, this.core.a, "#CC00FF");
-        this.line(this.core.getGraphCords(), 2, "white");
+        this.setAxes(this.core.x1, this.core.x2, this.core.a, "blue");
+        this.line(this.core.getGraphCords(), 2, "red");
     };
 
     this.setSize = function(width, height){
@@ -42,7 +42,7 @@ function Graph(id){
             ], 1, color);
             this.line([
                     [yAxe - 1.5 * scale, 2 * scale], [yAxe, 0], [yAxe + 1.5 * scale, 2 * scale]
-                ], 1, "red"
+                ], 1, color
             );
         }
 
@@ -53,8 +53,42 @@ function Graph(id){
 
         this.line([
                 [width - 2 * scale, xAxe - (1.5 * scale)], [width, xAxe], [width - 2 * scale, xAxe + (1.5 * scale)]
-            ], 1, "red"
+            ], 1, color
         );
+
+        var step = 5 * scale;
+        var i = yAxe - step;
+
+        while (i - step >= 0){
+            this.line([
+                [i, xAxe - scale], [i, xAxe + scale]
+            ], 1, color);
+            i -= step;
+        }
+
+        i = yAxe + step;
+        while (i + step <= width){
+            this.line([
+                [i, xAxe - scale], [i, xAxe + scale]
+            ], 1, color);
+            i += step;
+        }
+
+        i = xAxe - step;
+        while (i - step >= 0){
+            this.line([
+                [yAxe - scale, i], [yAxe + scale, i]
+            ], 1, color);
+            i -= step;
+        }
+
+        i = xAxe + step;
+        while (i + step <= height){
+            this.line([
+                [yAxe - scale, i], [yAxe + scale, i]
+            ], 1, color);
+            i += step;
+        }
     };
 
     this.line = function(points, width, color){

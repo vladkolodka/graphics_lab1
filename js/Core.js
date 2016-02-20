@@ -3,12 +3,12 @@ function Core(){
     this.x2 = undefined;
     this.a = undefined;
     this.padding = 20;
-    this.scale = 3;
+    this.scale = 5;
 
     this.scanValues = function(){
-        this.x1 = -120;
-        this.x2 =  120;
-        this.a =   60;
+        this.x1 = -50;
+        this.x2 =  50;
+        this.a =   10;
 
         return !(this.a <= 0 || this.x2 >= this.x1);
 
@@ -17,9 +17,8 @@ function Core(){
         var cords = [];
         var offsetX = ((this.x1 * -1) + this.padding) * this.scale;
         for (var i = this.x1; i <= this.x2; i++)
-            cords.push([i * this.scale + offsetX, (-this.getY(i) + this.a) * this.scale + this.padding]);
+            cords.push([i * this.scale + offsetX, ((-this.getY(i) + this.a) + this.padding) * this.scale]);
 
-        console.log(cords);
         return cords;
     };
     this.getY = function(x){
