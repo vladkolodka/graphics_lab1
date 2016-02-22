@@ -3,12 +3,12 @@ function Graph(id){
         this.init = function () {
             this.core.scanValues();
             this.setSize(this.core.getWidth(), this.core.getHeight());
-            this.setBackground('#904D16');
+            this.setBackground('silver');
 
         };
         this.print = function () {
-            this.line(this.core.getGraphCords(), 2, "yellow");
-            this.setAxes(this.core.x1, this.core.x2, this.core.a, "blue", "#C3FF69", "#00FFF8");
+            this.line(this.core.getGraphCords(), 2, "blue");
+            this.setAxes(this.core.x1, this.core.x2, this.core.a, "magenta", "white", "red", 1);
         };
 
         this.setSize = function (width, height) {
@@ -22,7 +22,7 @@ function Graph(id){
         };
 
 
-        this.setAxes = function (start, end, a, axesColor, pointsColor, textColor) {
+        this.setAxes = function (start, end, a, axesColor, pointsColor, textColor, type) {
             var y = !!((start >= -60 && start <= 60) || (end >= -60 && end <= 60) || (start < 0 && end > 0));
 
 
@@ -60,9 +60,12 @@ function Graph(id){
             var n = interval * -1;
 
             while (i - step >= 0) {
-                this.line([
-                    [i, xAxe - scale], [i, xAxe + scale]
-                ], 1, pointsColor);
+                if(type)
+                    this.circle(i, xAxe, scale, pointsColor);
+                else
+                    this.line([
+                        [i, xAxe - scale], [i, xAxe + scale]
+                    ], 1, pointsColor);
                 this.text(n, i - scale, xAxe -  scale * 2, textColor);
                 n -= interval;
                 i -= step;
@@ -71,9 +74,12 @@ function Graph(id){
             i = yAxe + step;
             n = interval;
             while (i + step <= width) {
-                this.line([
-                    [i, xAxe - scale], [i, xAxe + scale]
-                ], 1, pointsColor);
+                if(type)
+                    this.circle(i, xAxe, scale, pointsColor);
+                else
+                    this.line([
+                        [i, xAxe - scale], [i, xAxe + scale]
+                    ], 1, pointsColor);
                 this.text(n, i - scale, xAxe -  scale * 2, textColor);
                 n += interval;
                 i += step;
@@ -82,9 +88,12 @@ function Graph(id){
             i = xAxe - step;
             n = 5;
             while (i - step >= 0) {
-                this.line([
-                    [yAxe - scale, i], [yAxe + scale, i]
-                ], 1, pointsColor);
+                if(type)
+                    this.circle(yAxe, i, scale, pointsColor);
+                else
+                    this.line([
+                        [yAxe - scale, i], [yAxe + scale, i]
+                    ], 1, pointsColor);
                 this.text(n, yAxe + scale * 2, i + scale, textColor);
                 n += interval;
                 i -= step;
@@ -93,9 +102,12 @@ function Graph(id){
             i = xAxe + step;
             n = -5;
             while (i + step <= height) {
-                this.line([
-                    [yAxe - scale, i], [yAxe + scale, i]
-                ], 1, pointsColor);
+                if(type)
+                    this.circle(yAxe, i, scale, pointsColor);
+                else
+                    this.line([
+                        [yAxe - scale, i], [yAxe + scale, i]
+                    ], 1, pointsColor);
                 this.text(n, yAxe + scale * 2, i + scale, textColor);
                 n -= interval;
                 i += step;
@@ -116,15 +128,22 @@ function Graph(id){
             this.graph.strokeStyle = color;
             this.graph.stroke();
         };
-    }
-    this.text = function(text, x, y, color){
-        var oldColor = this.graph.fillStyle;
+        this.text = function(text, x, y, color){
+            var oldColor = this.graph.fillStyle;
 
-        this.graph.fillStyle = color;
-        this.graph.fillText(text, x, y);
+            this.graph.fillStyle = color;
+            this.graph.fillText(text, x, y);
 
-        this.graph.fillStyle = oldColor;
+            this.graph.fillStyle = oldColor;
+        };
+        this.circle = function(x, y, r, color){
+            this.graph.beginPath();
+            this.graph.fillStyle = color;
+            this.graph.arc(x, y, r,0, 2*Math.PI);
+            this.graph.fill();
+        };
     }
+
 
     // constructor
     this.object = document.getElementById(id);

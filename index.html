@@ -8,13 +8,16 @@
     <script src="js/Core.js"></script>
 </head>
 <body>
+<a href="" download="image.png" id="download_link">Download</a>
+<br>
 <canvas id="graph"></canvas>
-
 <script>
     var graph = new Graph('graph');
 
     graph.print();
 
+    var dt = graph.object.toDataURL('image/png').replace(/^data:image\/png/, 'data:application/octet-stream');
+    document.getElementById('download_link').setAttribute('href', dt);
 </script>
 </body>
 </html>
