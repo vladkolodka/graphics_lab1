@@ -4,20 +4,50 @@
     <meta charset="UTF-8">
     <title>Lab 1</title>
 
+    <script src="js/Controller.js"></script>
     <script src="js/Graph.js"></script>
     <script src="js/Core.js"></script>
 </head>
 <body>
-<a href="" download="image.png" id="download_link">Download</a>
-<br>
-<canvas id="graph"></canvas>
-<script>
-    var graph = new Graph('graph');
+<div id="dialog">
+    <form id="data" action="/">
+        <input type="number" name="x1" placeholder="x (start)" required>
+        <input type="number" name="x2" placeholder="x (end)" required>
+        <input type="number" name="a" placeholder="A" required>
+        <input type="number" name="line_width" placeholder="Line width" required><br>
+        <label>
+            Background:
+            <input type="color" name="background" value="#C0C1BA">
+        </label>
+        <label>
+            Line color:
+            <input type="color" name="line_color" value="#1D00FF">
+        </label>
+        <label>
+            Axes color:
+            <input type="color" name="axes_color" value="#FF00DA">
+        </label>
+        <label>
+            Text color:
+            <input type="color" name="text_color" value="#FF0032">
+        </label>
+        <label>
+            Points color:
+            <input type="color" name="points_color" value="#FFFFFF">
+        </label>
+        <label>
+            Points type:
+            <select name="points_type">
+                <option>Line</option>
+                <option>Circle</option>
+            </select>
+        </label><br>
+        <input type="number" name="padding" placeholder="padding" required>
+        <input type="number" name="scale" placeholder="scale" required>
+        <input type="submit" name="generate" value="Generate">
+    </form>
+</div>
+<div id="content"></div>
 
-    graph.print();
-
-    var dt = graph.object.toDataURL('image/png').replace(/^data:image\/png/, 'data:application/octet-stream');
-    document.getElementById('download_link').setAttribute('href', dt);
-</script>
 </body>
 </html>

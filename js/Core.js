@@ -1,18 +1,10 @@
-function Core(){
-    this.x1 = undefined;
-    this.x2 = undefined;
-    this.a = undefined;
-    this.padding = 20;
-    this.scale = 5;
+function Core(x1, x2, a, padding, scale){
+    this.x1 = x1;
+    this.x2 = x2;
+    this.a = a;
+    this.padding = padding;
+    this.scale = scale;
 
-    this.scanValues = function(){
-        this.x1 = -60;
-        this.x2 =  60;
-        this.a =   40;
-
-        return !(this.a <= 0 || this.x2 >= this.x1);
-
-    };
     this.getGraphCords = function () {
         var cords = [];
         var offsetX = ((this.x1 * -1) + this.padding) * this.scale;
