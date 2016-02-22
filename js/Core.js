@@ -6,9 +6,9 @@ function Core(){
     this.scale = 5;
 
     this.scanValues = function(){
-        this.x1 = -50;
-        this.x2 =  50;
-        this.a =   10;
+        this.x1 = -60;
+        this.x2 =  60;
+        this.a =   40;
 
         return !(this.a <= 0 || this.x2 >= this.x1);
 
