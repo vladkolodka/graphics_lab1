@@ -25,8 +25,60 @@ function Graph(id, core){
 
 
     this.setAxes = function (start, end, a, axesColor, pointsColor, textColor, type) {
-        this.line(this.core.getXAxe(), 1, axesColor);
-        this.line(this.core.getYAxe(), 1, axesColor);
+        this.graph.font = "2px sans-serif";
+        var xAxeCords = this.core.getXAxe();
+        var yAxeCords = this.core.getYAxe();
+        var width = this.core.width;
+        var height = this.core.height;
+        var step = 5;
+        var increment = 0;
+
+        // отрисовка осей
+        this.line(xAxeCords, 1, axesColor);
+        this.line(yAxeCords, 1, axesColor);
+
+        // отрисовка points
+        if(this.core.fakeY){
+            // X
+            increment = this.core.realX(this.core.x1 + step);
+            for(var i = xAxeCords[0][0]; i <= width; i+=increment){
+                this.line([
+                    [i, height], [i, height - 5]
+                ], 1, pointsColor);
+            }
+
+            // Y
+            increment = this.core.realY(this.core.a - step);
+            for(i = 0; i < height; i+=increment){
+                this.line([
+                    [0, i], [5, i]
+                ], 1, pointsColor);
+            }
+        } else{
+            // Y
+            increment = this.core.realY(this.core.a - step);
+            var yAxe = yAxeCords[0][0];
+            for(i = 0; i < height; i+=increment){
+                this.line([
+                    [yAxe - 5, i], [yAxe + 5, i]
+                ], 1, pointsColor);
+            }
+            increment = this.core.realX(this.core.x1 + step);
+            // X-
+            for(i = yAxe; i > 0; i-=increment){
+                this.line([
+                    [i, height], [i, height - 5]
+                ], 1, pointsColor);
+            }
+
+            // X+
+            for(i = yAxe; i < width; i+=increment){
+                this.line([
+                    [i, height], [i, height - 5]
+                ], 1, pointsColor);
+            }
+        }
+
     };
 
     this.line = function (points, width, color) {

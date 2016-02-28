@@ -5,6 +5,7 @@ function Core(x1, x2, a, step, heightError){
     this.step = step;
     this.width = window.innerWidth - 17;
     this.height = window.innerHeight - heightError;
+    this.fakeY = false;
 
     this.getGraphCords = function () {
         // вычисление массива координат графика
@@ -41,13 +42,13 @@ function Core(x1, x2, a, step, heightError){
         return helper();
 
         function main(){
-            console.log(1);
             // основная ось
             var x1_ = self.realX(0);
             return [[x1_, 0], [x1_, self.height]];
         }
         function helper(){
             // вспомогательная ось, c учетом ширины линии оси (1)
+            self.fakeY = true;
             return [[1, 0], [1, self.height]];
         }
     };
@@ -63,5 +64,8 @@ function Core(x1, x2, a, step, heightError){
 
     this.realX = function(x){
         return this.width * (x - this.x1) / (this.x2 - this.x1);
+    };
+    this.realY = function(y){
+        return this.height * (this.a - y) / (this.a - this.getMinY());
     };
 }
