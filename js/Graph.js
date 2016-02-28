@@ -4,7 +4,7 @@ function Graph(id, core){
     this.core = core;
 
     this.init = function (background) {
-        this.setSize(this.core.getWidth(), this.core.getHeight());
+        this.setSize(this.core.width, this.core.height);
         this.setBackground(background);
 
     };
@@ -25,98 +25,8 @@ function Graph(id, core){
 
 
     this.setAxes = function (start, end, a, axesColor, pointsColor, textColor, type) {
-        var y = !!((start >= -60 && start <= 60) || (end >= -60 && end <= 60) || (start < 0 && end > 0));
-
-
-        var yAxe = this.core.getYAxe();
-        var xAxe = this.core.getXAxe();
-        var width = this.core.getWidth();
-        var height = this.core.getHeight();
-        var scale = this.core.scale;
-        this.graph.font = 2 * scale + "px sans-serif";
-
-        // Y
-        if (y) {
-            this.line([
-                [yAxe, 0], [yAxe, height]
-            ], 1, axesColor);
-            this.line([
-                    [yAxe - 1.5 * scale, 2 * scale], [yAxe, 0], [yAxe + 1.5 * scale, 2 * scale]
-                ], 1, axesColor
-            );
-        }
-
-        // X
-        this.line([
-            [0, xAxe], [width, xAxe]
-        ], 1, axesColor);
-
-        this.line([
-                [width - 2 * scale, xAxe - (1.5 * scale)], [width, xAxe], [width - 2 * scale, xAxe + (1.5 * scale)]
-            ], 1, axesColor
-        );
-
-        var interval = 5;
-        var step = interval * scale;
-        var i = yAxe - step;
-        var n = interval * -1;
-
-        while (i - step >= 0) {
-            if(type)
-                this.circle(i, xAxe, scale, pointsColor);
-            else
-                this.line([
-                    [i, xAxe - scale], [i, xAxe + scale]
-                ], 1, pointsColor);
-            this.text(n, i - scale, xAxe -  scale * 2, textColor);
-            n -= interval;
-            i -= step;
-        }
-
-        i = yAxe + step;
-        n = interval;
-        while (i + step <= width) {
-            if(type)
-                this.circle(i, xAxe, scale, pointsColor);
-            else
-                this.line([
-                    [i, xAxe - scale], [i, xAxe + scale]
-                ], 1, pointsColor);
-            this.text(n, i - scale, xAxe -  scale * 2, textColor);
-            n += interval;
-            i += step;
-        }
-
-        i = xAxe - step;
-        n = 5;
-        while (i - step >= 0) {
-            if(type)
-                this.circle(yAxe, i, scale, pointsColor);
-            else
-                this.line([
-                    [yAxe - scale, i], [yAxe + scale, i]
-                ], 1, pointsColor);
-            this.text(n, yAxe + scale * 2, i + scale, textColor);
-            n += interval;
-            i -= step;
-        }
-
-        i = xAxe + step;
-        n = -5;
-        while (i + step <= height) {
-            if(type)
-                this.circle(yAxe, i, scale, pointsColor);
-            else
-                this.line([
-                    [yAxe - scale, i], [yAxe + scale, i]
-                ], 1, pointsColor);
-            this.text(n, yAxe + scale * 2, i + scale, textColor);
-            n -= interval;
-            i += step;
-        }
-
-        this.graph.font = 3 * scale + "px sans-serif";
-        this.text("0", yAxe + scale / 2, xAxe - scale, textColor);
+        this.line(this.core.getXAxe(), 1, axesColor);
+        this.line(this.core.getYAxe(), 1, axesColor);
     };
 
     this.line = function (points, width, color) {

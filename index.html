@@ -7,14 +7,17 @@
     <script src="js/Controller.js"></script>
     <script src="js/Graph.js"></script>
     <script src="js/Core.js"></script>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
 <div id="dialog">
     <form id="data" action="/">
-        <input type="number" name="x1" placeholder="x (start)" required>
-        <input type="number" name="x2" placeholder="x (end)" required>
-        <input type="number" name="a" placeholder="A" required>
-        <input type="number" name="line_width" placeholder="Line width" required><br>
         <label>
             Background:
             <input type="color" name="background" value="#C0C1BA">
@@ -41,9 +44,14 @@
                 <option>Line</option>
                 <option>Circle</option>
             </select>
-        </label><br>
-        <input type="number" name="padding" placeholder="padding" required>
-        <input type="number" name="scale" placeholder="scale" required>
+        </label>
+        <br>
+        <input type="number" name="x1" placeholder="x (start)" required value="-120">
+        <input type="number" name="x2" placeholder="x (end)" required value="120">
+        <input type="number" name="a" placeholder="A" required value="40">
+        <input type="number" name="line_width" placeholder="Line width" required value="2">
+        <input type="text" name="step" placeholder="step" required value="0.2">
+
         <input type="submit" name="generate" value="Generate">
     </form>
 </div>
