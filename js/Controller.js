@@ -1,3 +1,6 @@
+var core = undefined;
+var graph = undefined;
+var created = false;
 document.addEventListener('DOMContentLoaded', function(){
     var content = document.getElementById('content');
 
@@ -24,27 +27,10 @@ document.addEventListener('DOMContentLoaded', function(){
         var canvas = document.createElement('canvas');
         canvas.setAttribute('id', 'graph');
         content.appendChild(canvas);
-        var core = new Core(
-            Number(document.getElementsByName('x1')[0].value),
-            Number(document.getElementsByName('x2')[0].value),
-            Number(document.getElementsByName('a')[0].value),
-            Number(document.getElementsByName('step')[0].value),
-            document.getElementById('dialog').offsetHeight
-        );
-        var graph = new Graph('graph', core);
-        graph.init(
-            document.getElementsByName('background')[0].value
-        );
 
-        graph.print(
-            Number(document.getElementsByName('line_width')[0].value),
-            document.getElementsByName('line_color')[0].value,
-            document.getElementsByName('axes_color')[0].value,
-            document.getElementsByName('points_color')[0].value,
-            document.getElementsByName('text_color')[0].value,
-            Number(document.getElementsByName('points_type')[0].selectedIndex)
-        );
-
+        // on resize:
+        resize(1);
+        created = true;
         content.appendChild(document.createElement('hr'));
 
         var link = document.createElement('a');
@@ -56,3 +42,27 @@ document.addEventListener('DOMContentLoaded', function(){
         return false;
     };
 }, false);
+window.addEventListener('resize', resize, false);
+function resize(event){
+    if(typeof event == 'object' && !created) return false;
+    core = new Core(
+        Number(document.getElementsByName('x1')[0].value),
+        Number(document.getElementsByName('x2')[0].value),
+        Number(document.getElementsByName('a')[0].value),
+        Number(document.getElementsByName('step')[0].value),
+        document.getElementById('dialog').offsetHeight
+    );
+    graph = new Graph('graph', core);
+    graph.init(
+        document.getElementsByName('background')[0].value
+    );
+
+    graph.print(
+        Number(document.getElementsByName('line_width')[0].value),
+        document.getElementsByName('line_color')[0].value,
+        document.getElementsByName('axes_color')[0].value,
+        document.getElementsByName('points_color')[0].value,
+        document.getElementsByName('text_color')[0].value,
+        Number(document.getElementsByName('points_type')[0].selectedIndex)
+    );
+}

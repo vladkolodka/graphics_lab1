@@ -41,7 +41,7 @@ function Graph(id, core){
         if(this.core.fakeY){
             // X
             increment = this.core.realX(this.core.x1 + step);
-            for(var i = xAxeCords[0][0]; i <= width; i+=increment){
+            for(i = xAxeCords[0][0]; i <= width; i+=increment){
                 this.line([
                     [i, height], [i, height - 5]
                 ], 1, pointsColor);
@@ -58,7 +58,7 @@ function Graph(id, core){
             // Y
             increment = this.core.realY(this.core.a - step);
             var yAxe = yAxeCords[0][0];
-            for(i = 0; i < height; i+=increment){
+            for(var i = 0; i < height; i+=increment){
                 this.line([
                     [yAxe - 5, i], [yAxe + 5, i]
                 ], 1, pointsColor);
