@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Core tests</title>
+    <script src="../js/Core.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+    var core = new Core(-10, 10, 40, 20, 5, 69);
+    var cords = core.getGraphCords();
+    
+    cords.forEach(function(item, i){
+        document.write('[' + i + "]<br>" + item[0] + "<br>" + item[1] + "<hr>")
+    });
+</script>
+</html>
