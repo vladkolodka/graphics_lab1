@@ -34,10 +34,6 @@ function Core(x1, x2, a, step, heightError){
             // график проходит через x=0
             return main();
         }
-        /*if(Math.abs(this.x1) <= 20 || Math.abs(this.x2) <= 20){
-            // одна из точек близка к 0
-            return main();
-        }*/
 
         return helper();
 

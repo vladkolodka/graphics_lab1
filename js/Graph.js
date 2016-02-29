@@ -2,6 +2,7 @@ function Graph(id, core){
     this.object = document.getElementById(id);
     this.graph = this.object.getContext('2d');
     this.core = core;
+    this.delmerType = 0;
 
     this.init = function (background) {
         this.setSize(this.core.width, this.core.height);
@@ -9,8 +10,9 @@ function Graph(id, core){
 
     };
     this.print = function (line_width, line_color, axes_color, points_color, text_color, type) {
+        this.delmerType = type;
         this.line(this.core.getGraphCords(), line_width, line_color);
-        this.setAxes(this.core.x1, this.core.x2, this.core.a, axes_color, points_color, text_color, type);
+        this.setAxes(this.core.x1, this.core.x2, this.core.a, axes_color, points_color, text_color);
     };
 
     this.setSize = function (width, height) {
@@ -24,14 +26,15 @@ function Graph(id, core){
     };
 
 
-    this.setAxes = function (start, end, a, axesColor, pointsColor, textColor, type) {
-        this.graph.font = "2px sans-serif";
+    this.setAxes = function (start, end, a, axesColor, pointsColor, textColor) {
+        this.graph.font = "10px sans-serif";
         var xAxeCords = this.core.getXAxe();
         var yAxeCords = this.core.getYAxe();
         var width = this.core.width;
         var height = this.core.height;
         var step = 5;
         var increment = 0;
+        var text = 0;
 
         // отрисовка осей
         this.line(xAxeCords, 1, axesColor);
@@ -40,45 +43,49 @@ function Graph(id, core){
         // отрисовка points
         if(this.core.fakeY){
             // X
+            text = this.core.x1;
             increment = this.core.realX(this.core.x1 + step);
             for(i = xAxeCords[0][0]; i <= width; i+=increment){
-                this.line([
-                    [i, height], [i, height - 5]
-                ], 1, pointsColor);
+                this.delmer(i, height, pointsColor, 0);
+                this.text(text, i, height - 15, textColor);
+                text += step;
             }
 
             // Y
+            text = this.core.a;
             increment = this.core.realY(this.core.a - step);
             for(i = 0; i < height; i+=increment){
-                this.line([
-                    [0, i], [5, i]
-                ], 1, pointsColor);
+                this.delmer(0, i, pointsColor, 1);
+                this.text(text, 8, i + 10, textColor);
+                text -= step;
             }
         } else{
             // Y
             increment = this.core.realY(this.core.a - step);
             var yAxe = yAxeCords[0][0];
+            text = this.core.a;
             for(var i = 0; i < height; i+=increment){
-                this.line([
-                    [yAxe - 5, i], [yAxe + 5, i]
-                ], 1, pointsColor);
+                this.delmer(yAxe, i, pointsColor, 1);
+                this.text(text, yAxe + 8, i + 10, textColor);
+                text -= step;
             }
             increment = this.core.realX(this.core.x1 + step);
             // X-
+            text = 0;
             for(i = yAxe; i > 0; i-=increment){
-                this.line([
-                    [i, height], [i, height - 5]
-                ], 1, pointsColor);
+                this.delmer(i, height, pointsColor, 0);
+                this.text(text, i, height - 15, textColor);
+                text -= step;
             }
 
             // X+
+            text = 0;
             for(i = yAxe; i < width; i+=increment){
-                this.line([
-                    [i, height], [i, height - 5]
-                ], 1, pointsColor);
+                this.delmer(i, height, pointsColor, 0);
+                this.text(text, i, height - 15, textColor);
+                text += step;
             }
         }
-
     };
 
     this.line = function (points, width, color) {
@@ -108,5 +115,21 @@ function Graph(id, core){
     };
     this.getLink = function(){
         return this.object.toDataURL('image/png').replace(/^data:image\/png/, 'data:application/octet-stream');
-    }
+    };
+    this.axeDelmer = function(x, y, color, mode){
+        switch (mode){
+            case 0:
+                // X
+                this.line([[x, y], [x, y - 5]], 2, color);
+                break;
+            case 1:
+                // Y
+                this.line([[x - 5, y], [x + 5, y]], 2, color);
+                break;
+        }
+    };
+    this.delmer = function(x, y, color, mode){
+        if(this.delmerType) this.circle(x, y, 5, color);
+        else this.axeDelmer(x, y, color, mode);
+    };
 }
