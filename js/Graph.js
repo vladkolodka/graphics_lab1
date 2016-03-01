@@ -3,14 +3,16 @@ function Graph(id, core){
     this.graph = this.object.getContext('2d');
     this.core = core;
     this.delmerType = 0;
+    this.font = 10;
 
     this.init = function (background) {
         this.setSize(this.core.width, this.core.height);
         this.setBackground(background);
 
     };
-    this.print = function (line_width, line_color, axes_color, points_color, text_color, type) {
+    this.print = function (line_width, line_color, axes_color, points_color, text_color, type, font_width) {
         this.delmerType = type;
+        this.font = font_width;
         this.line(this.core.getGraphCords(), line_width, line_color);
         this.setAxes(this.core.x1, this.core.x2, this.core.a, axes_color, points_color, text_color);
     };
@@ -27,7 +29,7 @@ function Graph(id, core){
 
 
     this.setAxes = function (start, end, a, axesColor, pointsColor, textColor) {
-        this.graph.font = "10px sans-serif";
+        this.graph.font = this.font + "px sans-serif";
         var xAxeCords = this.core.getXAxe();
         var yAxeCords = this.core.getYAxe();
         var width = this.core.width;

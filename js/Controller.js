@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
         var x2 = Number(document.getElementsByName('x2')[0].value);
         var a = Number(document.getElementsByName('a')[0].value);
         var line_width = Number(document.getElementsByName('line_width')[0].value);
+        var step = Number(document.getElementsByName('font')[0].value);
 
         if(x2 <= x1){
             alert("X2 должно быть больше X1");
@@ -20,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         if(line_width < 1){
             alert("Ширина линии графика не может быть меньше 1");
+            return false;
+        }
+        if(step <= 0){
+            alert("Щаг должен быть > 0");
             return false;
         }
 
@@ -63,6 +68,7 @@ function resize(event){
         document.getElementsByName('axes_color')[0].value,
         document.getElementsByName('points_color')[0].value,
         document.getElementsByName('text_color')[0].value,
-        Number(document.getElementsByName('points_type')[0].selectedIndex)
+        Number(document.getElementsByName('points_type')[0].selectedIndex),
+        Number(document.getElementsByName('font')[0].value)
     );
 }
